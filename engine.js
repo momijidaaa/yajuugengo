@@ -9,25 +9,20 @@ const run = async (fileName) => {
             code = code.replace(rule.target, rule.replace);
         });
 
-        code += '\nmain();';
-
-        const checkCode = code.replace(/".*?"/g, "").replace(/'.*?'/g, "");
-        const leftover = checkCode.match(/[ぁ-んァ-ヶ亜-熙]/);
-        
-        if (leftover) {
-            console.log(`\x1b[31m【警告】翻訳ミス: "${leftover[0]}"\x1b[0m`);
-            console.log(code);
-        }
+        code += '\nawait main();';
 
         const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
         const output = {
-            push: (msg) => console.log(msg)
+            push: (msg) => {
+                console.log(msg);
+            }
         };
         
-        const fn = new AsyncFunction('output', code);
+        const fn = new AsyncFunction('output', 'process', code);
         
-        await fn(output);
-        process.exit();
+        await fn(output, process);
+        
+        process.stdin.pause();
     } catch (e) {
         console.log("\x1b[31m【エラー】ｱｯｱｯｱｯｱ\x1b[0m\n", e.message);
     }
