@@ -10,5 +10,9 @@ module.exports = [
     { name: 'end', target: /王道を往く/g, replace: '}' },
     { name: 'end_block', target: /おわり/g, replace: '}' },
     { name: 'add', target: /菅野美穂/g, replace: '+' },
-    { name: 'num2', target: /イクイク/g, replace: '1919' }
+    { name: 'num2', target: /イクイク/g, replace: '1919' },
+    { name: 'for', target: /多スギィ！\s*\((\d+)\)/g, replace: 'for (let i = 0; i < $1; i++) {' },
+    { name: 'input', target: /お前の名前は何だ？\s*(\w+)/g, replace: 'let $1 = await new Promise(r => { process.stdout.write("> "); process.stdin.once("data", d => r(d.toString().trim())) });' },
+    { name: 'and', target: /そうだよ/g, replace: '&&' },
+    { name: 'or', target: /あるいは/g, replace: '||' }
 ];
