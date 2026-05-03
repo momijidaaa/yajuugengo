@@ -5,16 +5,16 @@ const run = async (fileName) => {
     try {
         let code = fs.readFileSync(fileName, 'utf8');
 
-        // 翻訳処理
         rules.forEach(rule => {
             code = code.replace(rule.target, rule.replace);
         });
 
-        // 実行準備
         code += '\nmain();';
+
+        // 文字列の中身を除いた日本語チェック（表示用テキストを除外）
+        const checkCode = code.replace(/".*?"/g, "").replace(/'.*?'/g, "");
+        const leftover = checkCode.match(/[ぁ-んァ-ヶ亜-熙]/);
         
-        // 【デバッグ機能】日本語が残っていたら警告
-        const leftover = code.match(/[ぁ-んァ-ヶ亜-熙]/);
         if (leftover) {
             console.log(`\x1b[31m【警告】翻訳ミスを発見しました: "${leftover[0]}"\x1b[0m`);
             console.log("--- 現在のコード（デバッグ） ---");
@@ -25,7 +25,7 @@ const run = async (fileName) => {
         let output = [];
         const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
         const fn = new AsyncFunction('output', code);
-        
+
         await fn(output);
         console.log("\x1b[33m--- 実行結果 ---\x1b[0m");
         console.log(output.length > 0 ? output.join('\n') : "（出力なし）");
