@@ -12,6 +12,7 @@ module.exports = [
     { name: 'add', target: /菅野美穂/g, replace: '+' },
     { name: 'num1', target: /いいよ.*?来いよ！?/g, replace: '114514' },
     { name: 'num2', target: /イクイク/g, replace: '1919' },
+    { name: 'random', target: /どうなんすかね/g, replace: 'Math.floor(Math.random() * 100) + 1' },
     { name: 'and', target: /そうだよ/g, replace: '&&' },
     { name: 'or', target: /あるいは/g, replace: '||' },
     { name: 'error', target: /ンアッー！/g, replace: 'throw new Error("（迫真）");' }
