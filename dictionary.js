@@ -6,7 +6,8 @@ module.exports = [
     { name: 'var', target: /やりますねぇ！?[\s　]*(\w+)[\s　]*=[\s　]*(.+)/g, replace: 'let $1 = $2;' },
     { name: 'if', target: /アアーッ！?[\s　]*\((.+)\)/g, replace: 'if ($1) {' },
     { name: 'error', target: /ンアッー！/g, replace: 'throw new Error("（迫真）");' },
-    { name: 'print', target: /ブッチッパ！[\s　]*[「"'](.+?)[」"']/g, replace: 'output.push("$1");' },
+    // 強化版print: 「」付きの文字も、変数名も両方正しく変換します
+    { name: 'print', target: /ブッチッパ！[\s　]*([「"'](.+?)[」"']|(\w+))/g, replace: (match, p1, p2, p3) => `output.push(${p2 ? `"${p2}"` : p3});` },
     { name: 'end', target: /王道を往く/g, replace: '}' },
     { name: 'end_block', target: /おわり/g, replace: '}' },
     { name: 'add', target: /菅野美穂/g, replace: '+' },
